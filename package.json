@@ -1,0 +1,11 @@
+{
+  "name": "ibkr-clientportal-archive",
+  "version": "0.0.1",
+  "description": "This repository automatically tracks and stores updates to the Interactive Brokers Client Portal Gateway.",
+  "main": "scripts/update_checker.js",
+  "scripts": {
+    "check-update": "node scripts/update_checker.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

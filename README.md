@@ -13,7 +13,7 @@ The purpose of this repository is to:
 ## Repository Structure
 
 ```
-ibkr-clientportal-archives/
+archive/
 ├── clientportal/
 │   ├── latest/
 │   │   └── clientportal.gw.zip
