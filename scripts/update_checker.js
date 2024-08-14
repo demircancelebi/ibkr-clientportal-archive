@@ -1,11 +1,8 @@
-const fs = require('fs').promises;
+const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 const https = require('https');
 const crypto = require('crypto');
-const { exec } = require('child_process');
-const util = require('util');
-
-const execAsync = util.promisify(exec);
 
 const ZIP_URL = 'https://download2.interactivebrokers.com/portal/clientportal.gw.zip';
 const CLIENTPORTAL_DIR = path.join(__dirname, '..', 'clientportal');
@@ -35,7 +32,7 @@ async function downloadFile(url, destinationPath) {
 }
 
 async function calculateSHA256(filePath) {
-  const fileBuffer = await fs.readFile(filePath);
+  const fileBuffer = await fsPromises.readFile(filePath);
   const hashSum = crypto.createHash('sha256');
   hashSum.update(fileBuffer);
   return hashSum.digest('hex');
@@ -44,7 +41,7 @@ async function calculateSHA256(filePath) {
 async function updateChecksums(newChecksum) {
   let checksums;
   try {
-    const data = await fs.readFile(CHECKSUMS_FILE, 'utf8');
+    const data = await fsPromises.readFile(CHECKSUMS_FILE, 'utf8');
     checksums = JSON.parse(data);
   } catch (error) {
     checksums = { latest: null, versions: [] };
@@ -65,15 +62,15 @@ async function updateChecksums(newChecksum) {
     date: now
   };
 
-  await fs.writeFile(CHECKSUMS_FILE, JSON.stringify(checksums, null, 2));
+  await fsPromises.writeFile(CHECKSUMS_FILE, JSON.stringify(checksums, null, 2));
   return versionDir;
 }
 
 async function main() {
   try {
     // Ensure directories exist
-    await fs.mkdir(LATEST_DIR, { recursive: true });
-    await fs.mkdir(VERSIONS_DIR, { recursive: true });
+    await fsPromises.mkdir(LATEST_DIR, { recursive: true });
+    await fsPromises.mkdir(VERSIONS_DIR, { recursive: true });
 
     const tempFilePath = path.join(LATEST_DIR, 'temp_clientportal.gw.zip');
     await downloadFile(ZIP_URL, tempFilePath);
@@ -82,7 +79,7 @@ async function main() {
 
     let checksums;
     try {
-      const data = await fs.readFile(CHECKSUMS_FILE, 'utf8');
+      const data = await fsPromises.readFile(CHECKSUMS_FILE, 'utf8');
       checksums = JSON.parse(data);
     } catch (error) {
       checksums = { latest: null, versions: [] };
@@ -93,15 +90,15 @@ async function main() {
 
       const versionDir = await updateChecksums(newChecksum);
       const newVersionDir = path.join(VERSIONS_DIR, versionDir);
-      await fs.mkdir(newVersionDir, { recursive: true });
+      await fsPromises.mkdir(newVersionDir, { recursive: true });
 
-      await fs.rename(tempFilePath, path.join(LATEST_DIR, 'clientportal.gw.zip'));
-      await fs.copyFile(path.join(LATEST_DIR, 'clientportal.gw.zip'), path.join(newVersionDir, 'clientportal.gw.zip'));
+      await fsPromises.rename(tempFilePath, path.join(LATEST_DIR, 'clientportal.gw.zip'));
+      await fsPromises.copyFile(path.join(LATEST_DIR, 'clientportal.gw.zip'), path.join(newVersionDir, 'clientportal.gw.zip'));
 
       console.log('Repository updated successfully.');
     } else {
       console.log('No new version detected.');
-      await fs.unlink(tempFilePath);
+      await fsPromises.unlink(tempFilePath);
     }
   } catch (error) {
     console.error('An error occurred:', error);
