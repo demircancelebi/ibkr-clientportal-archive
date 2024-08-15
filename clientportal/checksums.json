@@ -1,0 +1,13 @@
+{
+  "latest": {
+    "sha256": "2f2d380b2f9424520ff5f9c11fe45e82ef39459329ac056258a3274bea6f76f9",
+    "date": "2024-08-15T00:18:58.249Z"
+  },
+  "versions": [
+    {
+      "sha256": "2f2d380b2f9424520ff5f9c11fe45e82ef39459329ac056258a3274bea6f76f9",
+      "date": "2024-08-15T00:18:58.249Z",
+      "path": "versions/20240815T001858/clientportal.gw.zip"
+    }
+  ]
+}
