@@ -2,7 +2,7 @@ name: Check and Update Client Portal
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Run daily at midnight UTC
+    - cron: "0 5 * * *" # Every morning at 5.00 AM
   workflow_dispatch:  # Allow manual triggers
 
 jobs:
