@@ -34,17 +34,16 @@ archive/
 
 This repository uses a GitHub Action to check for updates daily. If a new version is detected:
 
-1. The new version is downloaded and its checksum is verified.
-2. The new version is stored in both the `latest` folder and a new dated folder in `versions`.
-3. The `checksums.json` file is updated with the new version's information.
-4. Changes are automatically committed to the repository.
+1. The new version is downloaded and stored in both the `latest` folder and a new dated folder in `versions`.
+2. The `checksums.json` file is updated with the new version's information.
+3. Changes are automatically committed to the repository.
 
 ## Branch Protection and Contribution Policy
 
 To maintain the integrity of this archive:
 
-1. The main branch is protected.
-2. Only the automated GitHub Action can push changes to the main branch.
+1. The `master` branch is protected.
+2. Only the automated GitHub Action can push changes to the `master` branch.
 3. Direct pushes and pull requests from contributors are not accepted.
 
 These measures ensure that all updates come solely from the automated process checking the official Interactive Brokers source.
